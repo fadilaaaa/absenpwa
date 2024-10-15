@@ -3,11 +3,12 @@ import React, { useState, ReactNode } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 
-export default function DefaultLayout({
-  children,
-}: {
+interface DefaultLayoutProps {
+  title: string;
   children: React.ReactNode;
-}) {
+}
+
+export default function DefaultLayout({ title, children }: DefaultLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
@@ -20,7 +21,11 @@ export default function DefaultLayout({
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col lg:ml-72.5">
           {/* <!-- ===== Header Start ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Header
+            title={title}
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+          />
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
