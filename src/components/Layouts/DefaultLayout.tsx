@@ -8,7 +8,10 @@ interface DefaultLayoutProps {
   children: React.ReactNode;
 }
 
-export default function DefaultLayout({ title, children }: DefaultLayoutProps) {
+export default function DefaultLayout({
+  title = "",
+  children,
+}: DefaultLayoutProps): React.JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
