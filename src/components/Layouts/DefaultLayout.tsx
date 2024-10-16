@@ -4,7 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 
 interface DefaultLayoutProps {
-  title: string;
+  title?: string;
   children: React.ReactNode;
 }
 
