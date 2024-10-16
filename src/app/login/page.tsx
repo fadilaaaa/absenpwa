@@ -31,10 +31,10 @@ const Login = () => {
     //     }
     //   });
   };
-  const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeUsername = (e: any) => {
     setUsername(e.target.value);
   };
-  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePassword = (e: any) => {
     setPassword(e.target.value);
   };
   return (
@@ -44,7 +44,6 @@ const Login = () => {
       </Head>
       <div className="h-screen rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
-
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <Image
