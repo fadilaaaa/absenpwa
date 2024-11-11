@@ -11,7 +11,7 @@ const DropdownUser = () => {
       href="#"
     >
       <span className=" text-right lg:block">
-        <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button className="flex items-center gap-3.5 py-4 pl-0 pr-3 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
           <svg
             className="fill-current"
             width="22"
@@ -29,7 +29,6 @@ const DropdownUser = () => {
               fill=""
             />
           </svg>
-          Log Out
         </button>
 
         {/* <span className="block text-xs">UX Designer</span> */}
