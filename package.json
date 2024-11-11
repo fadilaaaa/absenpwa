@@ -10,13 +10,18 @@
   },
   "dependencies": {
     "apexcharts": "^3.45.2",
+    "dayjs": "^1.11.13",
     "flatpickr": "^4.6.13",
     "jsvectormap": "^1.6.0",
     "next": "^14.2.4",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
-    "react-camera-pro": "^1.4.0",
-    "react-dom": "^18"
+    "react-datepicker": "^7.5.0",
+    "react-dom": "^18",
+    "react-tailwindcss-datepicker": "^1.7.2",
+    "react-webcam": "^7.2.0",
+    "styled-component": "^2.8.0",
+    "sweetalert2": "^11.14.5"
   },
   "devDependencies": {
     "@types/node": "^20",
