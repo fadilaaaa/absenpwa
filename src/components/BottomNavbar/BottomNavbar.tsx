@@ -7,7 +7,7 @@ function BottomNavbar(props: { currentPage: string }) {
     router.push(`/${page}`);
   };
   return (
-    <div className="fixed bottom-4 left-1/2 z-50 h-16 w-full max-w-lg -translate-x-1/2 rounded-full border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
+    <div className="z-25 fixed bottom-4 left-1/2 h-16 w-full max-w-lg -translate-x-1/2 rounded-full border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
       <div className="mx-auto grid h-full max-w-lg grid-cols-5">
         <button
           onClick={() => handleNavigate("dashboard")}

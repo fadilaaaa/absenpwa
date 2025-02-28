@@ -1,35 +1,58 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import Swal from "sweetalert2";
+
+import global from "@/lib/global";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const [token, setToken] = useLocalStorage("token", "");
   const handleLogin = (e: any) => {
     e.preventDefault();
-    router.push("/dashboard");
-    // fetch("https://dummyjson.com/auth/login", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     username: "emilys",
-    //     password: "emilyspass",
-    //     expiresInMins: 30, // optional, defaults to 60
-    //   }),
-    //   credentials: "include", // Include cookies (e.g., accessToken) in the request
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     console.log(res);
-    //     if (res.status === "success") {
-    //       console.log("success");
-    //     }
-    //   });
+    // router.push("/dashboard");
+    fetch(`${global.api_url}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+
+        if (res.status === "success") {
+          console.log("success");
+          setToken(res.data.token);
+          Swal.fire({
+            title: "Login Berhasil",
+            text: "Selamat datang di aplikasi DLHK",
+            icon: "success",
+            confirmButtonText: "OK",
+          }).then(() => {
+            router.push("/dashboard");
+          });
+        } else {
+          Swal.fire({
+            title: "Login Gagal",
+            text: "Username atau password salah",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      });
   };
   const handleChangeUsername = (e: any) => {
     setUsername(e.target.value);
@@ -37,6 +60,13 @@ const Login = () => {
   const handleChangePassword = (e: any) => {
     setPassword(e.target.value);
   };
+  useEffect(() => {
+    console.log(token);
+
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, [token, router]);
   return (
     <>
       <Head>

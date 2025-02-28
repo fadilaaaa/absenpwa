@@ -1,48 +1,57 @@
 "use client";
 import BottomNavbar from "@/components/BottomNavbar/BottomNavbar";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import { stat } from "fs";
-import React from "react";
-
+import useLocalStorage from "@/hooks/useLocalStorage";
+import global from "@/lib/global";
+import React, { useEffect, useState } from "react";
+interface GajiData {
+  bulan: string;
+  gaji: string;
+  tahun: string;
+  absen: number;
+  telat: number;
+  izin: number;
+}
 function Gaji() {
-  const dataGaji = [
-    {
-      bulan: "Januari",
-      gaji: "Rp 1.000.000",
-      tahun: "2024",
-      status: "Lunas",
-      absen: 3,
-      telat: 2,
-      izin: 1,
-    },
-    {
-      bulan: "Februari",
-      gaji: "Rp 1.000.000",
-      tahun: "2024",
-      status: "Lunas",
-      absen: 3,
-      telat: 2,
-      izin: 1,
-    },
-    {
-      bulan: "Maret",
-      gaji: "Rp 1.000.000",
-      tahun: "2024",
-      status: "Lunas",
-      absen: 3,
-      telat: 2,
-      izin: 1,
-    },
-    {
-      bulan: "April",
-      gaji: "Rp 1.000.000",
-      tahun: "2024",
-      status: "Lunas",
-      absen: 3,
-      telat: 2,
-      izin: 1,
-    },
-  ];
+  const [dataGaji, setDataGaji] = useState<any>(null);
+  const token = useLocalStorage("token", "");
+  useEffect(() => {
+    fetch(`${global.api_url}/api/petugas/gaji`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data);
+
+        const userData = data.data
+          .map(
+            (item: {
+              bulan: string;
+              gaji: string;
+              tahun: string;
+              absen: number;
+              telat: number;
+              izin: number;
+            }) => {
+              return {
+                bulan: item.bulan,
+                gaji: item.gaji,
+                tahun: item.tahun,
+                absen: item.absen,
+                telat: item.telat,
+                izin: item.izin,
+              };
+            },
+          )
+          .catch((error: any) => {
+            console.error("Error:", error);
+          });
+        setDataGaji(userData);
+      });
+  }, []);
+
   return (
     <DefaultLayout title="Gaji">
       <div className="container mx-auto">
@@ -76,28 +85,32 @@ function Gaji() {
           </button>
         </div>
         <div className="mt-2 max-w-sm rounded-lg border border-gray-200 bg-white p-4 shadow dark:border-gray-700 dark:bg-gray-800">
-          {dataGaji.map((gaji, index) => (
-            <label key={index}>
-              <input
-                className="peer/showLabel absolute scale-0"
-                type="checkbox"
-              />
-              <span className="block max-h-14 max-w-xs overflow-hidden rounded-lg  bg-slate-100 px-4 py-0 text-cyan-800  transition-all duration-300 peer-checked/showLabel:max-h-52">
-                <h3 className="flex h-14 cursor-pointer items-center font-bold">
-                  {/* {"<"} */}
-                  {gaji.bulan} {gaji.tahun}
-                  <span className="ml-auto">{gaji.gaji}</span>
-                </h3>
-                <p className="mb-2">
-                  Gaji: {gaji.gaji} <br />
-                  Status: {gaji.status} <br />
-                  Absen: {gaji.absen} <br />
-                  Telat: {gaji.telat} <br />
-                  Izin: {gaji.izin} <br />
-                </p>
-              </span>
-            </label>
-          ))}
+          {dataGaji ? (
+            dataGaji.map((gaji: GajiData, index: React.Key) => (
+              <label key={index}>
+                <input
+                  className="peer/showLabel absolute scale-0"
+                  type="checkbox"
+                />
+                <span className="block max-h-14 max-w-xs overflow-hidden rounded-lg  bg-slate-100 px-4 py-0 text-cyan-800  transition-all duration-300 peer-checked/showLabel:max-h-52">
+                  <h3 className="flex h-14 cursor-pointer items-center font-bold">
+                    {/* {"<"} */}
+                    {gaji.bulan} {gaji.tahun}
+                    <span className="ml-auto">{gaji.gaji}</span>
+                  </h3>
+                  <p className="mb-2">
+                    Gaji: {gaji.gaji} <br />
+                    <br />
+                    Absen: {gaji.absen} <br />
+                    Telat: {gaji.telat} <br />
+                    Izin: {gaji.izin} <br />
+                  </p>
+                </span>
+              </label>
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </div>
 

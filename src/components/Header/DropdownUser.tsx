@@ -1,12 +1,21 @@
+"use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const DropdownUser = () => {
   // const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const router = useRouter();
+  const [token, setToken] = useLocalStorage("token", "");
+  const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setToken("");
+    router.push("/login");
+  };
   return (
     <Link
-      // onClick={() => setDropdownOpen(!dropdownOpen)}
+      onClick={(e) => handleLogout(e)}
       className="flex items-center gap-4"
       href="#"
     >
